@@ -1,4 +1,5 @@
-import { getEmojis, type EmojiInfo } from '$lib/server/emoji_data';
+import { getEmojis, type EmojiInfo, getEmojiAvgColors } from '$lib/server/emoji_data';
+import { time } from '$lib/util';
 import axios from 'axios';
 import * as fs from 'fs/promises';
 
@@ -10,21 +11,23 @@ async function startUp() {
   if (!(await checkPathExists(IMG_DIR))) {
     await fs.mkdir(IMG_DIR);
   }
-  await downloadAllEmojiImages(emojis);
+  await time("download emojis", () => downloadAllEmojiImages(emojis));
+  // 2. Get color info for each emoji.
+  await time("process emojis", () => getEmojiAvgColors());
 }
-startUp();
+await startUp();
+
+console.log("Startup Complete");
 
 
 async function downloadAllEmojiImages(emojis: EmojiInfo[]) {
   const imageDownloads: Promise<number>[] = [];
-  const start = new Date();
   for (const emoji of emojis) {
     imageDownloads.push(downloadEmojiImage(emoji));
   }
   const completedImageDownloads = await Promise.all(imageDownloads);
   const sum = completedImageDownloads.reduce((acc, num) => acc + num, 0);
-  const end = new Date();
-  console.log(`Downloaded ${sum} images in ${(end.getTime() - start.getTime()) / 1000} seconds.`);
+  console.log(`Downloaded ${sum} images.`);
 }
 
 async function downloadEmojiImage(emoji: EmojiInfo): Promise<number> {
@@ -34,7 +37,6 @@ async function downloadEmojiImage(emoji: EmojiInfo): Promise<number> {
 		const url = `https://raw.githubusercontent.com/googlefonts/noto-emoji/main/png/72/${emoji.path}`;
 		const response = await axios.get(url, { responseType: 'arraybuffer' });
 		const imageData = response.data;
-		console.log(`Downloaded ${emoji.path}`);
 		await fs.writeFile(imagePath, imageData);
 		return Promise.resolve(1);
 	}
