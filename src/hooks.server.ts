@@ -1,9 +1,9 @@
 import { getEmojis, type EmojiInfo, getEmojiAvgColors } from '$lib/server/emoji_data';
+import { IMG_DIR } from '$lib/server/file_paths';
 import { time } from '$lib/util';
 import axios from 'axios';
 import * as fs from 'fs/promises';
 
-const IMG_DIR = './images';
 
 async function startUp() {
   const emojis = await getEmojis();
