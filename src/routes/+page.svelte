@@ -16,7 +16,7 @@
 <main>
 	<h1>Upload Image</h1>
 	<form method="POST" enctype="multipart/form-data" use:enhance>
-		<input name="image" type="file" accept="image/png" on:change={handleImageChange} required />
+		<input name="image" type="file" accept="image" on:change={handleImageChange} required />
 		<button type="submit">Submit</button>
 	</form>
 
@@ -34,15 +34,10 @@
 </main>
 
 <style>
-	@import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap');
-	* {
-		font-family: 'Noto Color Emoji', sans-serif;
-	}
 	main {
 		text-align: center;
 		padding: 2rem;
 	}
-
 	img {
 		max-width: 100%;
 		margin-top: 1rem;

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getAverageColors } from './process_images';
 import * as fs from 'fs/promises';
-import { EMOJI_JSON_PATH } from './file_paths';
+import { EMOJI_AVG_COLORS_JSON_PATH, EMOJI_JSON_PATH } from './file_paths';
 
 export interface EmojiInfo {
 	path: string;
@@ -43,6 +43,7 @@ export async function getEmojiAvgColors() {
 		for (const emoji of emojis) {
 			emojiAvgColors.set(emoji.emoji, avgColorByPath.get(emoji.path)!);
 		}
+		fs.writeFile(EMOJI_AVG_COLORS_JSON_PATH, JSON.stringify(Object.fromEntries(emojiAvgColors)))
 	}
 	return emojiAvgColors;
 }

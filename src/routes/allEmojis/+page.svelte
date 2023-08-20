@@ -13,10 +13,3 @@
 		>
 	</li>
 {/each}
-
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap');
-	* {
-    font-family: 'Noto Color Emoji', sans-serif;
-	}
-</style>

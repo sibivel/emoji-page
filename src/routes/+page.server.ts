@@ -1,11 +1,6 @@
 import { getEmojiAvgColors, getEmojis, type EmojiInfo } from '$lib/server/emoji_data';
 import { getAverageColorsGrid } from '$lib/server/process_images';
 import type { RequestEvent } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
-
-// export function load () {
-  
-// };
 
 export const actions = {
 	default: convertImageToEmojisAction
