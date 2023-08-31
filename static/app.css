@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap');
+@font-face {
+  font-family: 'Noto Color Emoji';
+  src: url('NotoColorEmoji.ttf') format('truetype'); /* https://github.com/googlefonts/noto-emoji/raw/main/fonts/NotoColorEmoji.ttf */
+}
 * {
 	font-family: 'Noto Color Emoji', sans-serif;
 }

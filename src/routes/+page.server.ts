@@ -10,10 +10,10 @@ async function convertImageToEmojisAction({ request }: RequestEvent) {
 	const data = await request.formData();
 	const imageFile = data.get('image') as File;
 	const pixels = await getAverageColorsGrid(imageFile);
-	console.log(pixels);
 
 	const avgColors = await getEmojiAvgColors();
   const result = { text: pixels.map((row) => row.map((pixel) => findClosestEmoji(pixel, avgColors)).join('')) };
+	// console.log(result);
 	return result;
 }
 
@@ -27,6 +27,7 @@ function findClosestEmoji(pixel: number[], avgColors: Map<string, number[]>): st
 			minEmoji = emoji;
 		}
 	});
+	// console.log(minEmoji)
 	return minEmoji;
 }
 
