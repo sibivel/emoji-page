@@ -1,3 +1,3 @@
 import { writable } from "svelte/store";
 
-export const selectedImage = writable<File>();
+export const selectedImageAddress = writable<string>();

@@ -1,16 +1,20 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { findClosestEmoji, getAverageColorsGrid } from '$lib/client/process_images';
-	import { selectedImage } from '$lib/stores';
+	import { selectedImageAddress} from '$lib/stores';
 	import avgColorsObj from '$lib/downloaded/emojiAvgColors.json';
+	import defaultImage from '$lib/test.png';
 
 	export let emojis: string[];
 	let uploadedImage: HTMLImageElement;
 	let width = 30; // Default value
+
+	$selectedImageAddress = defaultImage;
+
 	const handleImageChange = (event: Event) => {
 		const input = event.target as HTMLInputElement;
 		if (input.files && input.files[0]) {
-			$selectedImage = input.files[0];
+			$selectedImageAddress = URL.createObjectURL(input.files[0]);
 		}
 	};
 
@@ -25,8 +29,8 @@
 
 <main>
 	<h1>Upload Image</h1>
-	<form on:submit={imageSubmit} enctype="multipart/form-data" use:enhance>
-		<input name="image" type="file" accept="image" on:change={handleImageChange} required />
+	<form on:submit={imageSubmit} enctype="multipart/form-data">
+		<input name="image" type="file" accept="image" on:change={handleImageChange}/>
 		<label for="slider">Adjust the image size:</label>
 		<input
 			type="range"
@@ -41,8 +45,8 @@
 		<button type="submit">Submit</button>
 	</form>
 
-	{#if $selectedImage}
-		<img src={URL.createObjectURL($selectedImage)} alt="Selected" bind:this={uploadedImage} />
+	{#if $selectedImageAddress}
+		<img src={$selectedImageAddress} alt="Selected" bind:this={uploadedImage} />
 	{/if}
 
 	{#if emojis}
