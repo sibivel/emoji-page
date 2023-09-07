@@ -17,7 +17,7 @@ export async function getAverageColors(paths: string[]): Promise<Map<string, num
 export async function getAverageColorsGrid(
 	imageFile: File,
 	multiplier = 1,
-) {
+): Promise<number[][][]> {
 	const image = sharp(await imageFile.arrayBuffer()).toFormat('png').ensureAlpha().raw();
 	const buffer = await image.toBuffer();
 	const metadata = await image.metadata();
