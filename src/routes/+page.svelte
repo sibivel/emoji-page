@@ -1,13 +1,12 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import { findClosestEmoji, getAverageColorsGrid } from '$lib/client/process_images';
-	import { selectedImageAddress} from '$lib/stores';
+	import { selectedImageAddress } from '$lib/stores';
 	import avgColorsObj from '$lib/downloaded/emojiAvgColors.json';
 	import defaultImage from '$lib/test.png';
 
 	export let emojis: string[];
 	let uploadedImage: HTMLImageElement;
-	let width = 30; // Default value
+	let width = 45; // Default value
 
 	$selectedImageAddress = defaultImage;
 
@@ -20,33 +19,30 @@
 
 	async function imageSubmit(e: SubmitEvent) {
 		e.preventDefault();
+		console.time('image-process');
 		const pixels = await getAverageColorsGrid(uploadedImage, width);
-		emojis = pixels.map((row) =>
-			row.map((pixel) => findClosestEmoji(pixel, new Map(Object.entries(avgColorsObj)))).join('')
-		);
+		emojis = [];
+		pixels.forEach((row) => {
+			emojis.push(
+				row.map((pixel) => findClosestEmoji(pixel, new Map(Object.entries(avgColorsObj)))).join('')
+			);
+		});
+		console.timeEnd('image-process');
 	}
 </script>
 
 <main>
 	<h1>Upload Image</h1>
 	<form on:submit={imageSubmit} enctype="multipart/form-data">
-		<input name="image" type="file" accept="image" on:change={handleImageChange}/>
+		<input name="image" type="file" accept="image" on:change={handleImageChange} />
 		<label for="slider">Adjust the image size:</label>
-		<input
-			type="range"
-			id="slider"
-			name="slider"
-			min="1"
-			max="100"
-			step="1"
-			bind:value={width}
-		/>
+		<input type="range" id="slider" name="slider" min="1" max="100" step="1" bind:value={width} />
 		<span>{width}</span>
 		<button type="submit">Submit</button>
 	</form>
 
 	{#if $selectedImageAddress}
-		<img src={$selectedImageAddress} alt="Selected" bind:this={uploadedImage} />
+		<img src={$selectedImageAddress} alt="Selected" bind:this={uploadedImage} width="500px" />
 	{/if}
 
 	{#if emojis}
@@ -70,6 +66,6 @@
 	.string-list {
 		display: flex;
 		flex-direction: column;
-		font-size: small;
+		font-size: x-small;
 	}
 </style>
