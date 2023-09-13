@@ -1637,9 +1637,9 @@ set-cookie-parser@^2.6.0:
   integrity sha512-RVnVQxTXuerk653XfuliOxBP81Sf0+qfQE73LIYKcyMYHG94AuH0kgrQpRDuTZnSmjpysHmzxJXKNfa6PjFhyQ==
 
 sharp@^0.32.4:
-  version "0.32.4"
-  resolved "https://registry.yarnpkg.com/sharp/-/sharp-0.32.4.tgz#0354653b7924f2520b2264ac9bcd10a58bf411b6"
-  integrity sha512-exUnZewqVZC6UXqXuQ8fyJJv0M968feBi04jb9GcUHrWtkRoAKnbJt8IfwT4NJs7FskArbJ14JAFGVuooszoGg==
+  version "0.32.5"
+  resolved "https://registry.yarnpkg.com/sharp/-/sharp-0.32.5.tgz#9ddc78ead6446094f51e50355a2d4ec6e7220cd4"
+  integrity sha512-0dap3iysgDkNaPOaOL4X/0akdu0ma62GcdC2NBQ+93eqpePdDdr2/LM0sFdDSMmN7yS+odyZtPsb7tx/cYBKnQ==
   dependencies:
     color "^4.2.3"
     detect-libc "^2.0.2"
@@ -1806,7 +1806,7 @@ svelte-preprocess@^5.0.4:
 
 svelte@^4.0.5:
   version "4.2.0"
-  resolved "https://registry.npmjs.org/svelte/-/svelte-4.2.0.tgz"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-4.2.0.tgz#0e4304c15524450b22fba02516eb72efbd8847b6"
   integrity sha512-kVsdPjDbLrv74SmLSUzAsBGquMs4MPgWGkGLpH+PjOYnFOziAvENVzgJmyOCV2gntxE32aNm8/sqNKD6LbIpeQ==
   dependencies:
     "@ampproject/remapping" "^2.2.1"
@@ -1941,7 +1941,7 @@ util-deprecate@^1.0.1, util-deprecate@^1.0.2:
 
 vite@^4.4.2:
   version "4.4.9"
-  resolved "https://registry.npmjs.org/vite/-/vite-4.4.9.tgz"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-4.4.9.tgz#1402423f1a2f8d66fd8d15e351127c7236d29d3d"
   integrity sha512-2mbUn2LlUmNASWwSCNSJ/EG2HuSRTnVNaydp6vMCm5VIqJsjMfbIWtbH2kDuwUVW5mMUKKZvGPX/rqeqVvv1XA==
   dependencies:
     esbuild "^0.18.10"

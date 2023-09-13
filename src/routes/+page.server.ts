@@ -1,4 +1,4 @@
-import { getEmojiAvgColors, getEmojis, type EmojiInfo } from '$lib/server/emoji_data';
+import { getEmojiAvgColors} from '$lib/server/emoji_data';
 import { getAverageColorsGrid } from '$lib/server/process_images';
 import type { RequestEvent } from '@sveltejs/kit';
 

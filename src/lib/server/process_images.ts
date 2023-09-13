@@ -5,33 +5,33 @@ import { IMG_DIR } from './file_paths';
 export async function getAverageColors(paths: string[]): Promise<Map<string, number[]>> {
 	const avgColors = new Map();
 	for (const path of paths) {
-		const image = sharp(`${IMG_DIR}/${path}`).toFormat('png').ensureAlpha().raw();
-		const buffer = await image.toBuffer();
-		const metadata = await image.metadata();
-		const avgColor = averageColor(buffer, metadata);
-		avgColors.set(path, avgColor);
+	const image = sharp(`${IMG_DIR}/${path}`).toFormat('png').ensureAlpha().raw();
+	const buffer = await image.toBuffer();
+	const metadata = await image.metadata();
+	const avgColor = averageColor(buffer, metadata);
+	avgColors.set(path, avgColor);
 	}
 	return avgColors;
 }
 
 export async function getAverageColorsGrid(
-	imageFile: File,
-	multiplier = 1,
+imageFile: File,
+multiplier = 1,
 ): Promise<number[][][]> {
-	const image = sharp(await imageFile.arrayBuffer()).toFormat('png').ensureAlpha().raw();
-	const buffer = await image.toBuffer();
-	const metadata = await image.metadata();
-	const width = Math.floor(metadata.width!/16) * multiplier;
-	const height = Math.floor(metadata.height!/metadata.width!*width);
-	const pixelWidth = Math.floor(metadata.width!/width);
-	const pixelHeight = Math.floor(metadata.height!/height);
-	const result: number[][][] = [];
-	for (let r = 0; r < metadata.height!; r += pixelHeight) {
-		result.push([]);
-		for (let c = 0; c < metadata.width!; c += pixelWidth) {
-			const avgColor = averageColor(buffer, metadata, r, c, Math.min(r + pixelHeight,  metadata.height!), Math.min(c + pixelWidth, metadata.width!));
-			result[r/pixelHeight].push(avgColor);
-		}
+const image = sharp(await imageFile.arrayBuffer()).toFormat('png').ensureAlpha().raw();
+const buffer = await image.toBuffer();
+const metadata = await image.metadata();
+const width = Math.floor(metadata.width!/16) * multiplier;
+const height = Math.floor(metadata.height!/metadata.width!*width);
+const pixelWidth = Math.floor(metadata.width!/width);
+const pixelHeight = Math.floor(metadata.height!/height);
+const result: number[][][] = [];
+for (let r = 0; r < metadata.height!; r += pixelHeight) {
+result.push([]);
+for (let c = 0; c < metadata.width!; c += pixelWidth) {
+const avgColor = averageColor(buffer, metadata, r, c, Math.min(r + pixelHeight,  metadata.height!), Math.min(c + pixelWidth, metadata.width!));
+result[r/pixelHeight].push(avgColor);
+}
 	}
 	return result;
 }
