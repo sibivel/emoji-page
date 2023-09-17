@@ -18,7 +18,7 @@ async function startUp() {
 	// 2. Get color info for each emoji.
 	await time('process emojis', () => getEmojiAvgColors());
 }
-console.log(NO_STARTUP_DOWLOAD)
+console.log(NO_STARTUP_DOWLOAD);
 if (!NO_STARTUP_DOWLOAD) {
 	await startUp();
 }
