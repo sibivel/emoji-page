@@ -1,13 +1,19 @@
 <script lang="ts">
-	import { findClosestEmoji, getAverageColorsGrid } from '$lib/client/process_images';
+	import {
+		euclideanDistance,
+		findClosestEmoji,
+		getAverageColorsGrid,
+		pixelToColorVector
+	} from '$lib/client/process_images';
 	import { selectedImageAddress } from '$lib/stores';
 	import avgColorsObj from '$lib/downloaded/emojiAvgColors.json';
 	import defaultImage from '$lib/test.png';
 	import { time, timeSync } from '$lib/util';
+	import { kdTree } from 'kd-tree-javascript';
 
 	export let emojis: string[];
 	let uploadedImage: HTMLImageElement;
-	let width = 45; // Default value
+	let width = 100; // Default value
 
 	$selectedImageAddress = defaultImage;
 
@@ -18,15 +24,28 @@
 		}
 	};
 
+	const vectors = Object.entries(avgColorsObj).map(([emoji, color]) =>
+		pixelToColorVector(color, emoji)
+	);
+	const tree = new kdTree(vectors, (vector1, vector2) => euclideanDistance(vector1, vector2), [
+		'name',
+		'r',
+		'g',
+		'b',
+		'a'
+	]);
+
 	async function imageSubmit(e: SubmitEvent) {
 		e.preventDefault();
-		const pixels = await time('image-process', () => getAverageColorsGrid(uploadedImage, width));
-		emojis = [];
-		timeSync('find-closest-emojis', () => pixels.forEach((row) => {
-			emojis.push(
-				row.map((pixel) => findClosestEmoji(pixel, new Map(Object.entries(avgColorsObj)))).join('')
+		await time('total-process', async () => {
+			const pixels = await time('image-process', () => getAverageColorsGrid(uploadedImage, width));
+			emojis = [];
+			timeSync('find-closest-emojis', () =>
+				pixels.forEach((row) => {
+					emojis.push(row.map((pixel) => findClosestEmoji(pixel, tree)).join(''));
+				})
 			);
-		}));
+		});
 	}
 </script>
 
