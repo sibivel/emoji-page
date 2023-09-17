@@ -15,11 +15,7 @@ export async function getAverageColors(paths: string[]): Promise<Map<string, num
 	return avgColors;
 }
 
-function averageColor(
-	ctx: CanvasRenderingContext2D,
-	width: number,
-	height: number,
-): number[] {
+function averageColor(ctx: CanvasRenderingContext2D, width: number, height: number): number[] {
 	const rgba = [0, 0, 0, 0];
 	const imgData = ctx.getImageData(0, 0, width, height).data;
 

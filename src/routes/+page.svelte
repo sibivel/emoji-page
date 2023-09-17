@@ -55,7 +55,13 @@
 	<h1>Convert Image to Emojis</h1>
 	<p>Select an image to convert it to text using emojis</p>
 	<form on:submit={imageSubmit} enctype="multipart/form-data">
-		<input name="image" type="file" accept="image" on:change={handleImageChange} />
+		<input
+			class="my-button"
+			name="image"
+			type="file"
+			accept="image"
+			on:change={handleImageChange}
+		/>
 		<label for="slider">Output size:</label>
 		<input
 			type="range"
@@ -66,9 +72,10 @@
 			step="1"
 			bind:value={width}
 			on:change={() => imageSubmit()}
+			style="width:300px"
 		/>
 		<span>{width}</span>
-		<button type="submit">Convert To Emoji</button>
+		<button class="my-button" type="submit">Convert To Emoji</button>
 	</form>
 
 	{#if $selectedImageAddress}

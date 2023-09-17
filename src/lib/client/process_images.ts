@@ -61,10 +61,7 @@ export function averageColor(
 	return rgba.map((sum) => Math.round(sum / count));
 }
 
-export function findClosestEmoji(
-	pixel: number[],
-	tree: kdTree<ColorVector>
-): string {
+export function findClosestEmoji(pixel: number[], tree: kdTree<ColorVector>): string {
 	return tree.nearest(pixelToColorVector(pixel), 1)[0][0].name;
 }
 
