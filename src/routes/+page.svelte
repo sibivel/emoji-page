@@ -3,6 +3,7 @@
 	import { selectedImageAddress } from '$lib/stores';
 	import avgColorsObj from '$lib/downloaded/emojiAvgColors.json';
 	import defaultImage from '$lib/test.png';
+	import { time, timeSync } from '$lib/util';
 
 	export let emojis: string[];
 	let uploadedImage: HTMLImageElement;
@@ -19,15 +20,13 @@
 
 	async function imageSubmit(e: SubmitEvent) {
 		e.preventDefault();
-		console.time('image-process');
-		const pixels = await getAverageColorsGrid(uploadedImage, width);
+		const pixels = await time('image-process', () => getAverageColorsGrid(uploadedImage, width));
 		emojis = [];
-		pixels.forEach((row) => {
+		timeSync('find-closest-emojis', () => pixels.forEach((row) => {
 			emojis.push(
 				row.map((pixel) => findClosestEmoji(pixel, new Map(Object.entries(avgColorsObj)))).join('')
 			);
-		});
-		console.timeEnd('image-process');
+		}));
 	}
 </script>
 

@@ -24,7 +24,7 @@ export async function getAverageColorsGrid(img: HTMLImageElement, width = 30) {
       return result;
 }
 
-function averageColor(ctx: CanvasRenderingContext2D, startR = 0, startC = 0, endR: number, endC: number): number[] {
+export function averageColor(ctx: CanvasRenderingContext2D, startR = 0, startC = 0, endR: number, endC: number): number[] {
   const rgba = [0, 0, 0, 0];
   const imgData = ctx.getImageData(startC, startR, endC - startC, endR - startR).data;
 
