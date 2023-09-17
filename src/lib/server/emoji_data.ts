@@ -18,14 +18,16 @@ export async function getEmojis() {
 		console.log('Making Request for emoji list');
 		try {
 			emojis = await axios.get<{ tree: Array<{ path: string }> }>(API_URL).then((response) =>
-				response.data.tree.map((blob) => {
-					const path = blob.path;
-					const codepoints = blob.path
-						.slice(7, blob.path.length - 4)
-						.split('_')
-						.map((code) => parseInt(code, 16));
-					return { path, emoji: String.fromCodePoint(...codepoints) };
-				})
+				response.data.tree
+					.map((blob) => {
+						const path = blob.path;
+						const codepoints = blob.path
+							.slice(7, blob.path.length - 4)
+							.split('_')
+							.map((code) => parseInt(code, 16));
+						return { path, emoji: String.fromCodePoint(...codepoints) };
+					})
+					.filter((emoji) => emoji.emoji.charCodeAt(0) > 0x00ff)
 			);
 			fs.writeFile(EMOJI_JSON_PATH, JSON.stringify(emojis));
 		} catch (error) {
@@ -43,7 +45,7 @@ export async function getEmojiAvgColors() {
 		for (const emoji of emojis) {
 			emojiAvgColors.set(emoji.emoji, avgColorByPath.get(emoji.path)!);
 		}
-		fs.writeFile(EMOJI_AVG_COLORS_JSON_PATH, JSON.stringify(Object.fromEntries(emojiAvgColors)))
+		fs.writeFile(EMOJI_AVG_COLORS_JSON_PATH, JSON.stringify(Object.fromEntries(emojiAvgColors)));
 	}
 	return emojiAvgColors;
 }
