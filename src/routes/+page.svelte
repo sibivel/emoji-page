@@ -13,7 +13,7 @@
 
 	export let emojis: string[];
 	let uploadedImage: HTMLImageElement;
-	let width = 100; // Default value
+	let width = 70; // Default value
 
 	$selectedImageAddress = defaultImage;
 
@@ -35,8 +35,10 @@
 		'a'
 	]);
 
-	async function imageSubmit(e: SubmitEvent) {
-		e.preventDefault();
+	async function imageSubmit(e?: SubmitEvent) {
+		if (e) {
+			e.preventDefault();
+		}
 		await time('total-process', async () => {
 			const pixels = await time('image-process', () => getAverageColorsGrid(uploadedImage, width));
 			emojis = [];
@@ -50,13 +52,23 @@
 </script>
 
 <main>
-	<h1>Upload Image</h1>
+	<h1>Convert Image to Emojis</h1>
+	<p>Select an image to convert it to text using emojis</p>
 	<form on:submit={imageSubmit} enctype="multipart/form-data">
 		<input name="image" type="file" accept="image" on:change={handleImageChange} />
-		<label for="slider">Adjust the image size:</label>
-		<input type="range" id="slider" name="slider" min="1" max="100" step="1" bind:value={width} />
+		<label for="slider">Output size:</label>
+		<input
+			type="range"
+			id="slider"
+			name="slider"
+			min="1"
+			max="200"
+			step="1"
+			bind:value={width}
+			on:change={() => imageSubmit()}
+		/>
 		<span>{width}</span>
-		<button type="submit">Submit</button>
+		<button type="submit">Convert To Emoji</button>
 	</form>
 
 	{#if $selectedImageAddress}
