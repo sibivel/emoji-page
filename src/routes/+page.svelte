@@ -9,7 +9,8 @@
 	import avgColorsObj from '$lib/downloaded/emojiAvgColors.json';
 	import defaultImage from '$lib/test.png';
 	import { time, timeSync } from '$lib/util';
-	import { kdTree } from 'kd-tree-javascript';
+	import kdTreeJavascript from 'kd-tree-javascript';
+	const { kdTree } = kdTreeJavascript;
 
 	export let emojis: string[];
 	let uploadedImage: HTMLImageElement;
