@@ -3,6 +3,7 @@ import { DOWNLOADED, IMG_DIR } from '$lib/server/file_paths';
 import { time } from '$lib/util';
 import axios from 'axios';
 import * as fs from 'fs/promises';
+import { NO_STARTUP_DOWLOAD } from '$env/static/private';
 
 async function startUp() {
 	if (!(await checkPathExists(DOWNLOADED))) {
@@ -17,7 +18,10 @@ async function startUp() {
 	// 2. Get color info for each emoji.
 	await time('process emojis', () => getEmojiAvgColors());
 }
-await startUp();
+console.log(NO_STARTUP_DOWLOAD)
+if (!NO_STARTUP_DOWLOAD) {
+	await startUp();
+}
 
 console.log('Startup Complete');
 
